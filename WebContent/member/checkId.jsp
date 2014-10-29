@@ -1,0 +1,46 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ page import="java.sql.*, javax.sql.*, javax.naming.*" %>
+<%
+	// 한글 처리
+	request.setCharacterEncoding("utf8");
+	// 파라미터값 가져오기
+	String id = request.getParameter("id");
+	// 디비용 변수
+	Context initCtx = null;
+	DataSource ds = null;
+	Connection conn = null;
+	PreparedStatement pstmt = null;
+	ResultSet rs = null;
+	String sql = "";
+	
+	Boolean idValue = true;
+	
+	try {
+	    initCtx = new InitialContext();
+	    ds = (DataSource)initCtx.lookup("java:comp/env/jdbc/jspbeginner");
+	    
+	    conn = ds.getConnection();
+	    sql = "SELECT id from MEMBER";
+	    pstmt = conn.prepareStatement(sql);
+	    rs = pstmt.executeQuery();
+	    
+	    while(rs.next()) {
+	        if(id.equals(rs.getString("id"))) {
+	            idValue = false;
+	            break;
+	        }
+	    }
+	    if(idValue == true) {
+	        %><font color="green">Possible</font><%
+	    } else {
+	        %><font color="red">Not Possible</font><%
+	    }
+	} catch(Exception e) {
+	    e.printStackTrace();
+	} finally {
+	    if(rs != null) try{rs.close();}catch(Exception e){}
+	    if(pstmt != null) try{pstmt.close();}catch(Exception e){}
+	    if(conn != null) try{conn.close();}catch(Exception e){}
+	}
+%>
