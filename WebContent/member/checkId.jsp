@@ -21,14 +21,14 @@
 	    ds = (DataSource)initCtx.lookup("java:comp/env/jdbc/jspbeginner");
 	    
 	    conn = ds.getConnection();
-	    sql = "SELECT id from MEMBER";
+	    sql = "SELECT id from MEMBER WHERE id=?";
 	    pstmt = conn.prepareStatement(sql);
+	    pstmt.setString(1, id);
 	    rs = pstmt.executeQuery();
 	    
-	    while(rs.next()) {
+	    if(rs.next()) {
 	        if(id.equals(rs.getString("id"))) {
 	            idValue = false;
-	            break;
 	        }
 	    }
 	    if(idValue == true) {

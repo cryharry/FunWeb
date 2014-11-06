@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@page import="board.*, java.util.List, java.text.SimpleDateFormat" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,15 +23,20 @@
    DD_belatedPNG.fix('#main_img');   
 
  </script>
- <![endif]--> 
-
-
+ <![endif]-->
 </head>
 <body>
 <div id="wrap">
 <!-- 헤더파일들어가는 곳 -->
 <header>
-<div id="login"><a href="member/login.jsp">login</a> | <a href="member/join.jsp">join</a></div>
+<%
+String id = (String)session.getAttribute("id");
+if(id == null) { // 세션값없음
+%>
+	<div id="login"><a href="member/login.jsp">login</a> | <a href="member/join.jsp">join</a></div>
+<%} else { // 세션값 있음 %> 
+	<div id="login"><font color="blue"><%=id %></font>님 <a href="member/logout.jsp">logout</a> | <a href="member/join.jsp">join</a></div>
+<%} %> 
 <div class="clear"></div>
 <!-- 로고들어가는 곳 -->
 <div id="logo"><img src="images/logo.gif" width="265" height="62" alt="Fun Web"></div>
@@ -92,16 +98,42 @@ quis ante......</dd>
 <div id="news_notice">
 <h3 class="brown">News &amp; Notice</h3>
 <table>
-<tr><td class="contxt"><a href="#">Vivans....</a></td>
-    <td>2012.11.02</td></tr>
-<tr><td class="contxt"><a href="#">Vivans....</a></td>
-    <td>2012.11.02</td></tr>
-<tr><td class="contxt"><a href="#">Vivans....</a></td>
-    <td>2012.11.02</td></tr>
-<tr><td class="contxt"><a href="#">Vivans....</a></td>
-    <td>2012.11.02</td></tr>
-<tr><td class="contxt"><a href="#">Vivans....</a></td>
-    <td>2012.11.02</td></tr>
+<%
+	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	BoardDAO boardDAO = new BoardDAO();
+	int count = boardDAO.getBoardCount();
+	List<BoardBean> boardList = null;
+	if(count != 0) {
+	    boardList = boardDAO.getBoards(1, 5);
+	    for(int i=0; i<boardList.size(); i++) {
+	        BoardBean boardBean = boardList.get(i);
+	        %>
+	        	<tr>
+	        		<td class="contxt">
+	        		<%
+					int wid = 0;
+					if(boardBean.getRe_lev()>0) { //답변글
+						wid = 10*boardBean.getRe_lev();
+					%>
+						<img src="images/center/level.gif" width="<%=wid%>">
+						<img src="images/center/re.gif">
+					<%
+					}
+					%>
+	        			<a href="#"><%=boardBean.getSubject() %></a>
+	        		</td>
+	        		<td><%=sdf.format(boardBean.getDate()) %></td>
+	        	</tr>
+	        <%
+	    }
+	} else {
+%>
+	<tr>
+		<td class="contxt" colspan="2">게시판 글 없음</td>
+	</tr>
+<%
+	}
+%>
 </table>
 </div>
 </article>

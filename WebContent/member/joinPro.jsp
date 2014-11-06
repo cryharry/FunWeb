@@ -19,6 +19,9 @@
 	MemberDAO memberDAO = new MemberDAO();
 	// 메서드 호출 insertMember(memberBean);
 	memberDAO.insertMember(memberBean);
-	// login.jsp이동
-	response.sendRedirect("login.jsp");
+	// "회원가입성공" login.jsp이동
 %>
+<script>
+	alert("회원가입성공");
+	location.href="login.jsp";
+</script>

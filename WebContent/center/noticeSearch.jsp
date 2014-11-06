@@ -46,10 +46,14 @@
 </nav>
 <!-- 왼쪽메뉴 -->
 <%
+	// 한글 처리
+	request.setCharacterEncoding("utf8");
+	// 검색어 search 가져오기
+	String search = request.getParameter("search");
 	//디비객체 생성 boardDAO
 	BoardDAO boardDAO = new BoardDAO();
 	//int count= getBoardCount()   //count(*)
-	int count = boardDAO.getBoardCount();
+	int count = boardDAO.getBoardCount(search);
 	// 한 페이지 보여줄 글수
 	int pageSize = 15;
 	// 현 페이지 가져오기
@@ -65,7 +69,7 @@
 	// 글이 있으면 디비 게시판 글 가져오기
 	List<BoardBean> boardList = null;
 	if(count != 0) {
-	    boardList = boardDAO.getBoards(startRow, pageSize);
+	    boardList = boardDAO.getBoards(startRow, pageSize, search);
 	}
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	// 가상번호 계산
@@ -148,15 +152,15 @@ if(count > 0) {
 	}
 	// [이전]
 	if(startPage > pageBlock) {
-		%><a href="noticeSearch.jsp?pageNum=<%=startPage-pageBlock%>">[PREV]</a><%
+		%><a href="list.jsp?pageNum=<%=startPage-pageBlock%>">[PREV]</a><%
 	}
 	// [1] ~ [10]
 	for(int i=startPage; i<=endPage; i++) {
-		%><a href="noticeSearch.jsp?pageNum=<%=i%>">[<%=i %>]</a><%
+		%><a href="list.jsp?pageNum=<%=i%>">[<%=i %>]</a><%
 	}
 	// [다음]
 	if(endPage < pageCount) {
-		%><a href="noticeSearch.jsp?pageNum=<%=startPage+pageBlock%>">[NEXT]</a><%
+		%><a href="list.jsp?pageNum=<%=startPage+pageBlock%>">[NEXT]</a><%
 	}
 }
 %>

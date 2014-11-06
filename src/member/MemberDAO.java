@@ -55,4 +55,54 @@ public class MemberDAO {
             if(conn != null) try{conn.close();}catch(Exception e){}
         }
     }
+    
+    public int userCheck(String id, String passwd) {
+        int check = -1;
+        try {
+            conn = dbConn();
+            sql = "SELECT passwd FROM MEMBER WHERE id=?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, id);
+            
+            rs = pstmt.executeQuery();
+            
+            if(rs.next()) {
+                if(passwd.equals(rs.getString("passwd"))) {
+                    check = 1;
+                } else {
+                    check = 0;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if(rs != null) try{rs.close();}catch(Exception e){}
+            if(pstmt != null) try{pstmt.close();}catch(Exception e){}
+            if(conn != null) try{conn.close();}catch(Exception e){}
+        }
+        return check;
+    }
+    public int IdCheck(String id) {
+        int check = 0;
+        try {
+            conn = dbConn();
+            sql = "SELECT id FROM MEMBER WHERE id=?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, id);
+            rs = pstmt.executeQuery();
+            
+            if(rs.next()) {
+                if(id.equals(rs.getString("id"))) {
+                    check = 1;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if(rs != null) try{rs.close();}catch(Exception e){}
+            if(pstmt != null) try{pstmt.close();}catch(Exception e){}
+            if(conn != null) try{conn.close();}catch(Exception e){}
+        }
+        return check;
+    }
 }
