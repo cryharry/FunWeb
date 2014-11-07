@@ -120,7 +120,7 @@ quis ante......</dd>
 					<%
 					}
 					%>
-	        			<a href="#"><%=boardBean.getSubject() %></a>
+	        			<a href="center/content.jsp?num=<%=boardBean.getNum()%>"><%=boardBean.getSubject() %></a>
 	        		</td>
 	        		<td><%=sdf.format(boardBean.getDate()) %></td>
 	        	</tr>

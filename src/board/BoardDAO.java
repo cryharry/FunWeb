@@ -252,13 +252,15 @@ public class BoardDAO {
             rs = pstmt.executeQuery();
             if(rs.next()) {
                 if(boardBean.getPasswd().equals(rs.getString("passwd"))) {
-                    sql = "UPDATE BOARD SET name = ?,subject = ?,content = ? WHERE num = ?";
+                    sql = "UPDATE BOARD SET name = ?,subject = ?," +
+                    		"content = ?, file = ? WHERE num = ?";
                     
                     pstmt = conn.prepareStatement(sql);
                     pstmt.setString(1, boardBean.getName());
                     pstmt.setString(2, boardBean.getSubject());
                     pstmt.setString(3, boardBean.getContent());
-                    pstmt.setInt(4, boardBean.getNum());
+                    pstmt.setString(4, boardBean.getFile());
+                    pstmt.setInt(5, boardBean.getNum());
                     
                     pstmt.executeUpdate();
                     

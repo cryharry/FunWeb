@@ -74,7 +74,7 @@
 %>
 <!-- 게시판 -->
 <article>
-<h1>Notice : [전체 글수<%=count %>]</h1>
+<h1>File Notice : [전체 글수<%=count %>]</h1>
 <table id="notice">
 <tr><th class="tno">No.</th>
     <th class="ttitle">Title</th>
@@ -92,7 +92,7 @@
         for(int i=0; i<boardList.size(); i++) {
         BoardBean boardBean =  boardList.get(i);
         %>
-        <tr onclick="location.href='content.jsp?num=<%=boardBean.getNum()%>&pageNum=<%=pageNum%>'">
+        <tr onclick="location.href='fcontent.jsp?num=<%=boardBean.getNum()%>&pageNum=<%=pageNum%>'">
 	    	<td><%=number-- %></td>
 	        <td class="left">
 	        <%
@@ -120,7 +120,7 @@
 	if(id != null) {
 	    %>
 	    <div id="table_search">
-			<input type="button" value="글쓰기" class="btn" onclick="location.href='write.jsp'">
+			<input type="button" value="글쓰기" class="btn" onclick="location.href='fwrite.jsp'">
 		</div>
 	    <%
 	}
@@ -148,15 +148,15 @@ if(count > 0) {
 	}
 	// [이전]
 	if(startPage > pageBlock) {
-		%><a href="noticeSearch.jsp?pageNum=<%=startPage-pageBlock%>">[PREV]</a><%
+		%><a href="fnotice.jsp?pageNum=<%=startPage-pageBlock%>">[PREV]</a><%
 	}
 	// [1] ~ [10]
 	for(int i=startPage; i<=endPage; i++) {
-		%><a href="noticeSearch.jsp?pageNum=<%=i%>">[<%=i %>]</a><%
+		%><a href="fnotice.jsp?pageNum=<%=i%>">[<%=i %>]</a><%
 	}
 	// [다음]
 	if(endPage < pageCount) {
-		%><a href="noticeSearch.jsp?pageNum=<%=startPage+pageBlock%>">[NEXT]</a><%
+		%><a href="fnotice.jsp?pageNum=<%=startPage+pageBlock%>">[NEXT]</a><%
 	}
 }
 %>
